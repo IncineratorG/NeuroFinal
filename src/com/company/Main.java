@@ -26,7 +26,7 @@ public class Main {
         NeuralNetwork neuralNetwork = new NeuralNetwork(inputNodes, hiddenNodes, outputNodes, learningRate);
 
         System.out.println("TRAINING_NETWORK");
-        int epochs = 5;
+        int epochs = 2;
         for (int epoch = 0; epoch < epochs; ++epoch) {
             System.out.println("EPOCH: " + (epoch + 1) + " of " + epochs);
 

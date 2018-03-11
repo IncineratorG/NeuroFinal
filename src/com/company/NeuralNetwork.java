@@ -54,7 +54,7 @@ public class NeuralNetwork {
         for (int row = 0; row < hiddenOutputsMatrix.numRows(); ++row)
             for (int column = 0; column < hiddenOutputsMatrix.numCols(); ++column)
                 hiddenOutputsMatrix.set(row, column,
-                        ActivationFunction.sigmoid(
+                        ActivationFunctionClass.sigmoid(
                                 hiddenInputsMatrix.get(row, column)
                         )
                 );
@@ -65,7 +65,7 @@ public class NeuralNetwork {
         for (int row = 0; row < finalOutputsMatrix.numRows(); ++row)
             for (int column = 0; column < finalOutputsMatrix.numCols(); ++column)
                 finalOutputsMatrix.set(row, column,
-                            ActivationFunction.sigmoid(
+                        ActivationFunctionClass.sigmoid(
                                     finalInputsMatrix.get(row, column)
                             )
                         );
@@ -176,7 +176,7 @@ public class NeuralNetwork {
         for (int row = 0; row < hiddenOutputsMatrix.numRows(); ++row)
             for (int column = 0; column < hiddenOutputsMatrix.numCols(); ++column)
                 hiddenOutputsMatrix.set(row, column,
-                        ActivationFunction.sigmoid(
+                        ActivationFunctionClass.sigmoid(
                                 hiddenInputsMatrix.get(row, column)
                         )
                 );
@@ -187,7 +187,7 @@ public class NeuralNetwork {
         for (int row = 0; row < finalOutputsMatrix.numRows(); ++row)
             for (int column = 0; column < finalOutputsMatrix.numCols(); ++column)
                 finalOutputsMatrix.set(row, column,
-                            ActivationFunction.sigmoid(
+                        ActivationFunctionClass.sigmoid(
                                     finalInputsMatrix.get(row, column)
                             )
                         );
@@ -195,4 +195,10 @@ public class NeuralNetwork {
         return finalOutputsMatrix;
     }
 
+
+    public static class ActivationFunctionClass {
+        static double sigmoid(double x) {
+            return (1/( 1 + Math.pow(Math.E,(-1 * x))));
+        }
+    }
 }
