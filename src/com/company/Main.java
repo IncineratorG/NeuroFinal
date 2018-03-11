@@ -2,7 +2,6 @@ package com.company;
 
 import javafx.util.Pair;
 import org.ejml.simple.SimpleMatrix;
-import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.io.*;
 import java.util.*;
@@ -16,34 +15,39 @@ public class Main {
         String TEST_FILE_PATH = "C:\\Empty files\\mnist_dataset\\mnist_test.csv";
 
         System.out.println("LOADING_TRAINING_DATA");
-        List<Pair<Integer, List<Double>>> trainDataList = loadData_V2(TRAIN_FILE_PATH);
+        List<Pair<Integer, List<Double>>> trainDataList = loadData(TRAIN_FILE_PATH);
         System.out.println("TRAIN_DATA_LIST_SIZE: " + trainDataList.size());
 
         int inputNodes = 784;
-        int hiddenNodes = 200;
+        int hiddenNodes = 300;
         int outputNodes = 10;
         double learningRate = 0.2;
 
         NeuralNetwork neuralNetwork = new NeuralNetwork(inputNodes, hiddenNodes, outputNodes, learningRate);
 
         System.out.println("TRAINING_NETWORK");
-        for (int trainDataListIndex = 0; trainDataListIndex < trainDataList.size(); ++trainDataListIndex) {
-            Pair<Integer, List<Double>> trainDataItem = trainDataList.get(trainDataListIndex);
+        int epochs = 5;
+        for (int epoch = 0; epoch < epochs; ++epoch) {
+            System.out.println("EPOCH: " + (epoch + 1) + " of " + epochs);
 
-            List<Double> targetsList = new ArrayList<>(outputNodes);
-            for (int i = 0; i < outputNodes; ++i)
-                targetsList.add(0.01);
+            for (int trainDataListIndex = 0; trainDataListIndex < trainDataList.size(); ++trainDataListIndex) {
+                Pair<Integer, List<Double>> trainDataItem = trainDataList.get(trainDataListIndex);
 
-            targetsList.set(trainDataItem.getKey(), 0.99);
+                List<Double> targetsList = new ArrayList<>(outputNodes);
+                for (int i = 0; i < outputNodes; ++i)
+                    targetsList.add(0.01);
 
-            neuralNetwork.train(trainDataItem.getValue(), targetsList);
+                targetsList.set(trainDataItem.getKey(), 0.99);
 
-            if ((trainDataListIndex % 1000) == 0)
-                System.out.println("TRAINED: " + trainDataListIndex);
+                neuralNetwork.train(trainDataItem.getValue(), targetsList);
+
+                if ((trainDataListIndex % 1000) == 0)
+                    System.out.println("EPOCH: " + (epoch + 1) + " -> TRAINED: " + trainDataListIndex);
+            }
         }
 
         System.out.println("LOADING_TEST_DATA");
-        List<Pair<Integer, List<Double>>> testDataList = loadData_V2(TEST_FILE_PATH);
+        List<Pair<Integer, List<Double>>> testDataList = loadData(TEST_FILE_PATH);
         System.out.println("TEST_DATA_LIST_SIZE: " + testDataList.size());
 
         System.out.println("QUERY_NETWORK");
@@ -59,84 +63,11 @@ public class Main {
         }
 
         System.out.println("NETWORK_RESULT: " + ((double) correctResults / testDataList.size()));
-
-
-//        System.out.println("LOADING_TEST_DATA");
-//        Map<Double, List<Double>> testDataMap = loadData(TEST_FILE_PATH);
-//
-//        System.out.println("QUERY_NETWORK");
-//
-//        int total = 0;
-//        int right = 0;
-//        for (Map.Entry<Double, List<Double>> testDataItem : testDataMap.entrySet()) {
-//            List<Double> targetsList = new ArrayList<>(10);
-//
-//            int targetElement = -1;
-//            for (int i = 0; i < 10; ++i) {
-//                if (i == testDataItem.getKey()) {
-//                    targetsList.add(0.99);
-//                    targetElement = i;
-//                } else
-//                    targetsList.add(0.01);
-//            }
-//
-//            SimpleMatrix resultMatrix = neuralNetwork.query(testDataItem.getValue());
-//
-//            int result = maximumMatrixRow(resultMatrix);
-//
-//            ++total;
-//
-//            if (result == targetElement)
-//                ++right;
-//        }
-//
-//        double rightDouble = (double) right;
-//        double totalDouble = (double) total;
-//
-//        System.out.println(rightDouble / totalDouble);
-
-
-
-//        int inputNodes = 3;
-//        int hiddenNodes = 5;
-//        int outputNodes = 2;
-//        double learningRate = 0.2;
-//
-//        NeuralNetwork neuralNetwork = new NeuralNetwork(inputNodes, hiddenNodes, outputNodes, learningRate);
-//
-//        List<Double> inputsList = new ArrayList<>();
-//        inputsList.add(0.8);
-//        inputsList.add(0.2);
-//        inputsList.add(0.359);
-////        inputsList.add(0.8);
-////        inputsList.add(0.2);
-////        inputsList.add(0.359);
-////        inputsList.add(0.2);
-//
-//        List<Double> targetsList = new ArrayList<>();
-//        targetsList.add(0.1);
-//        targetsList.add(0.9);
-////        targetsList.add(0.7);
-//
-//        System.out.println("INITIAL_QUERY");
-//        System.out.println(neuralNetwork.query(inputsList));
-//        System.out.println();
-//
-//        for (int i = 0; i < 1000; ++i) {
-//            neuralNetwork.train(inputsList, targetsList);
-//        }
-//
-//        System.out.println("FINAL_QUERY");
-//        System.out.println(neuralNetwork.query(inputsList));
-
-
-//        test();
-//        test2();
     }
 
 
 
-    static List<Pair<Integer, List<Double>>> loadData_V2(String path) {
+    static List<Pair<Integer, List<Double>>> loadData(String path) {
         File file = new File(path);
 
         String line = null;
@@ -179,47 +110,6 @@ public class Main {
         return dataList;
     }
 
-//    static Map<Integer, List<Double>> loadData(String path) {
-//        File file = new File(path);
-//
-//        String line = null;
-//        List<String> linesList = new ArrayList<>();
-//
-//        BufferedReader bufferedReader = null;
-//        try {
-//            bufferedReader = new BufferedReader(new FileReader(file));
-//
-//            while ((line = bufferedReader.readLine()) != null)
-//                linesList.add(line);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        Map<Integer, List<Double>> dataMap = new HashMap<>();
-//
-//        for (int lineIndex = 0; lineIndex < linesList.size(); ++lineIndex) {
-//            String currentLine = linesList.get(lineIndex);
-//            currentLine = currentLine.replaceAll(" ", "");
-//
-//            List<String> currentLineContentList = Arrays.asList(currentLine.split(SPLIT_CHARACTER));
-//
-//            int codedNumber = Integer.parseInt(currentLineContentList.get(0));
-//
-//            List<Double> codedNumberDataList = new ArrayList<>(currentLineContentList.size() - 1);
-//            for (int lineContentIndex = 1; lineContentIndex < currentLineContentList.size(); ++lineContentIndex) {
-//                double contentNumberDataItem = Double.parseDouble(currentLineContentList.get(lineContentIndex));
-//                contentNumberDataItem = contentNumberDataItem / 255 * 0.99 + 0.01;
-//
-//                codedNumberDataList.add(contentNumberDataItem);
-//            }
-//
-//            dataMap.put(codedNumber, codedNumberDataList);
-//        }
-//
-//        return dataMap;
-//    }
 
 
 
