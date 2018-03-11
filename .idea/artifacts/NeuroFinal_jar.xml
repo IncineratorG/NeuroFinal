@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="NeuroFinal:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/NeuroFinal_jar</output-path>
+    <root id="archive" name="NeuroFinal.jar">
+      <element id="module-output" name="NeuroFinal" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ejml-all-0.33.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ejml-core-0.33.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ejml-fdense-0.33.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ejml-ddense-0.33.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ejml-cdense-0.33.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ejml-zdense-0.33.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ejml-dsparse-0.33.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ejml-simple-0.33.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
