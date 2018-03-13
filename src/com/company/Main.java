@@ -19,14 +19,14 @@ public class Main {
         System.out.println("TRAIN_DATA_LIST_SIZE: " + trainDataList.size());
 
         int inputNodes = 784;
-        int hiddenNodes = 300;
+        int hiddenNodes = 1100;
         int outputNodes = 10;
-        double learningRate = 0.2;
+        double learningRate = 0.07;
 
-        NeuralNetwork neuralNetwork = new NeuralNetwork(inputNodes, hiddenNodes, outputNodes, learningRate);
+        NeuralNetworkMultilayer neuralNetwork = new NeuralNetworkMultilayer(inputNodes, hiddenNodes, outputNodes, learningRate);
 
         System.out.println("TRAINING_NETWORK");
-        int epochs = 2;
+        int epochs = 4;
         for (int epoch = 0; epoch < epochs; ++epoch) {
             System.out.println("EPOCH: " + (epoch + 1) + " of " + epochs);
 
@@ -41,7 +41,7 @@ public class Main {
 
                 neuralNetwork.train(trainDataItem.getValue(), targetsList);
 
-                if ((trainDataListIndex % 1000) == 0)
+                if ((trainDataListIndex % 500) == 0)
                     System.out.println("EPOCH: " + (epoch + 1) + " -> TRAINED: " + trainDataListIndex);
             }
         }
